@@ -6,7 +6,7 @@ clc
 %mass
 m = 750;
 %damping
-c = 10;
+c = 1000;
 %spring stiffness
 k = 50000;
 %simulation time
@@ -26,7 +26,9 @@ del = c/(2*m);
 %frequency ratio
 r = omega/omega_n;
 %initial conditions
-x_0 = 0.0;%initial displacement
+x_0 = 0;%initial displacement (this is the overall displacement)
+%the complimentary (homogeneous) and particular solutions at t=0 will add
+%up to make the initial condition position value
 x_dot_0 = 0;%initial velocity
 
 %eigenvalues of the system/roots of the characteristic equation of the
@@ -58,10 +60,10 @@ v_t = v_t_c + v_t_p;
 %plotting 
 figure(1)
 hold on
-aa = plot(time_span,x_t,'-*','color','r')
-bb = plot(time_span,x_t_p,'-*','color','k')
-cc = plot(time_span,x_t_c,'-*','color','b')
-legend([aa,bb,cc],'Overall Displacment','Particular Displacement','Complimentary displacment')
+plot(time_span,x_t,':','color','r','linewidth',2)
+plot(time_span,x_t_p,'--','color','k','linewidth',1.5)
+plot(time_span,x_t_c,'-.','color','b','linewidth',1.5)
+legend('Overall Response','Steady State Response (Particular Solution)','Transient Solution (Homogeneous Solution)')
 
 %%
 %initialize figure
