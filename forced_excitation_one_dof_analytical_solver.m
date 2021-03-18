@@ -64,7 +64,6 @@ plot(time_span,x_t,':','color','r','linewidth',2)
 plot(time_span,x_t_p,'--','color','k','linewidth',1.5)
 plot(time_span,x_t_c,'-.','color','b','linewidth',1.5)
 legend('Overall Response','Steady State Response (Particular Solution)','Transient Solution (Homogeneous Solution)')
-
 %%
 %initialize figure
 run('initialize_figure.m')
