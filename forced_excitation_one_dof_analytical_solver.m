@@ -15,7 +15,7 @@ time_span = [0:0.01:10];
 omega_n = sqrt(k/m);
 %frequency of the system/frequency of the harmonic force
 omega = 2;
-%magnitude of the harmonic force
+%amplitude of the harmonic force
 force = 2000;
 %critical damping 
 c_c = 2*m*omega_n;
@@ -49,7 +49,7 @@ c2 = (lambda(1)*x_0 - x_dot_0 + x_max*(omega*sin(phi) - lambda(1)*cos(phi)))/(la
 x_t_c = real(c1*exp(lambda(1)*time_span) + c2*exp(lambda(2)*time_span));
 v_t_c = real(lambda(1)*c1*exp(lambda(1)*time_span) + lambda(2)*c2*exp(lambda(2)*time_span));
 
-%particular solutionx`  
+%particular solution  
 x_t_p = x_max*cos(omega*time_span - phi);
 v_t_p = -omega*x_max*sin(omega*time_span - phi);
 
@@ -57,13 +57,33 @@ v_t_p = -omega*x_max*sin(omega*time_span - phi);
 x_t = x_t_c + x_t_p;
 v_t = v_t_c + v_t_p;
 
-%plotting 
+%external harmonic force expression
+harmonic_force = force*cos(omega*time_span);
+
+% comparing responses of the system
 figure(1)
 hold on
-% plot(time_span,x_t,':','color','r','linewidth',2)
+plot(time_span,x_t,':','color','r','linewidth',2)
 plot(time_span,x_t_p,'--','color','k','linewidth',1.5)
 plot(time_span,x_t_c,'-.','color','b','linewidth',1.5)
-% legend('Overall Response','Steady State Response (Particular Solution)','Transient Solution (Homogeneous Solution)')
+legend('Overall Response','Steady State Response (Particular Solution)','Transient Solution (Homogeneous Solution)')
+axis([0,10,-0.06,0.08])
+
+% comparing input signal (harmonic force) and steady state output signal
+% (particular solution)
+figure(2)
+graph_plot = plot(1,1,1,1);
+set(graph_plot(1),'color','k','linewidth',2);
+set(graph_plot(2),'color','r','linewidth',2);
+axis_graph(1) = gca; %get current axis
+axis_graph(2) = axes('Position',axis_graph(1).Position,'YAxisLocation','right','Ycolor','r','color','none','XTicklabel',[]);
+hold on
+set(graph_plot(1),'Parent',axis_graph(1),'XData',time_span,'YData',x_t_p)
+set(graph_plot(2),'Parent',axis_graph(2),'XData',time_span,'YData',harmonic_force)
+xlabel(axis_graph(1),'Time (s)')
+ylabel(axis_graph(2),'Harmonic Input (N)')
+ylabel(axis_graph(1),'Steady State Response (m)')
+grid on
 %%
 % %initialize figure
 % run('initialize_figure.m')
